@@ -28,7 +28,7 @@ tasks.getByName<Test>("test") {
 tasks.withType<Checkstyle>().configureEach {
     reports {
         xml.required.set(false)
-        html.required.set(true)
+        html.required.set(false)
         //finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
         //dependsOn(tasks.test) // tests are required to run before generating the report
     }
