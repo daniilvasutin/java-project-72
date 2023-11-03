@@ -1,7 +1,9 @@
-FROM gradle:8.4-jdk17
+FROM jdk17
 
-COPY ./ .
+WORKDIR /app
 
-RUN ./gradlew  installDist
+COPY / .
 
-CMD build/install/app/bin/app
+RUN ./gradlew installDist
+
+CMD ./build/install/app/bin/app
