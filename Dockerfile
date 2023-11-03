@@ -4,6 +4,6 @@ ARG GRADLE_VERSION=8.4
 
 COPY ./ .
 
-RUN gradle installDist
+RUN gradlew installDist
 
 CMD build/install/app/bin/app
