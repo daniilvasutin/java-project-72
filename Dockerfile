@@ -1,9 +1,7 @@
 FROM gradle:8.4-jdk17
 
-WORKDIR /app
-
-COPY / .
+COPY ./ .
 
 RUN gradle installDist
 
-CMD ./build/install/app/bin/app
+CMD build/install/app/bin/app
