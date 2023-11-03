@@ -27,11 +27,12 @@ tasks.getByName<Test>("test") {
 
 tasks.withType<Checkstyle>().configureEach {
     reports {
-        xml.required.set(false)
-        html.required.set(false)
+        xml.required.set(true)
+        html.required.set(true)
+
+        //html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        //html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-custom.xsl")
         //finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
         //dependsOn(tasks.test) // tests are required to run before generating the report
     }
-
-
 }
