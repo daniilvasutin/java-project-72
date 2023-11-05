@@ -33,10 +33,22 @@ public class App {
         return System.getenv().getOrDefault("JDBC_DATABASE_URL", JDBC_URL_DEFAULT);
     }
 
+    public static boolean isProduction() {
+        return System.getenv().getOrDefault("APP_ENV", "dev").equals("production");
+    }
+
     public static Javalin getApp() throws IOException, SQLException {
 
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
+
+        if (isProduction()) {
+            var username = System.getenv("JDBC_DATABASE_USERNAME");
+            var password = System.getenv("JDBC_DATABASE_PASSWORD");
+            configHikari.setUsername(username);
+            configHikari.setPassword(password);
+        }
+
         var dataSource = new HikariDataSource(configHikari);
         // Получаем путь до файла в src/main/resources
         var url = App.class.getClassLoader().getResource("schema.sql");
