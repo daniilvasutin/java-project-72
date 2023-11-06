@@ -22,6 +22,7 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.projectlombok:lombok:1.18.26")
     implementation("org.projectlombok:lombok:1.18.26")
+    implementation("org.postgresql:postgresql:42.1.4")
 
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.h2database:h2:2.2.220")
