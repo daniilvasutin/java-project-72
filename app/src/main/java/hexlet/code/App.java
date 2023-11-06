@@ -7,8 +7,8 @@ import io.javalin.http.Context;
 import lombok.extern.slf4j.Slf4j;
 import repository.BaseRepository;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
@@ -51,10 +51,14 @@ public class App {
 
         var dataSource = new HikariDataSource(configHikari);
         // Получаем путь до файла в src/main/resources
-        var url = App.class.getClassLoader().getResource("schema.sql");
         //создаем запрос рендеря файл schema.sql
-        var file = new File(url.getFile());
-        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
+        var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        var reader = new BufferedReader(new InputStreamReader(inputStream));
+        var sql = reader.lines().collect(Collectors.joining("\n"));
+//        var file = new File(url.getFile());
+//        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
+
+
         // Получаем соединение, создаем стейтмент и выполняем запрос
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()){
