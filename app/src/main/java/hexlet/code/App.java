@@ -53,16 +53,12 @@ public class App {
         var dataSource = new HikariDataSource(configHikari);
         // Получаем путь до файла в src/main/resources
         //создаем запрос рендеря файл schema.sql
-        String path = App.class.getClassLoader().getName();
-//        String path = App.class.getClassLoader().getResourceAsStream();
-        System.out.println(path + "<- this is getClassLoader");
 
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
-//        var file = new File(url.getFile());
-//        var sql = Files.lines(file.toPath()).collect(Collectors.joining("\n"));
 
+        System.out.println("!!! SQL !!! \n" + sql + "!!! END SQL !!! \n");
 
         // Получаем соединение, создаем стейтмент и выполняем запрос
         try (var connection = dataSource.getConnection();
