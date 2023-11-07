@@ -7,11 +7,18 @@ import io.javalin.http.Context;
 import lombok.extern.slf4j.Slf4j;
 import repository.BaseRepository;
 
+import gg.jte.ContentType;
+import gg.jte.TemplateEngine;
+import io.javalin.rendering.template.JavalinJte;
+
+import gg.jte.resolve.ResourceCodeResolver;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
+import io.javalin.rendering.template.JavalinJte;
 
 @Slf4j
 public class App {
@@ -37,6 +44,13 @@ public class App {
         return System.getenv().getOrDefault("APP_ENV", "dev").equals("production");
     }
 
+    private static TemplateEngine createTemplateEngine() {
+        ClassLoader classLoader = App.class.getClassLoader();
+        ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates", classLoader);
+        TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+        return templateEngine;
+    }
+
     public static Javalin getApp() throws IOException, SQLException {
 
         System.out.println("GET APP START!!!");
@@ -53,11 +67,9 @@ public class App {
         var dataSource = new HikariDataSource(configHikari);
         // Получаем путь до файла в src/main/resources
         //создаем запрос рендеря файл schema.sql
-
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
-
         System.out.println("!!! SQL !!! \n" + sql + "!!! END SQL !!! \n");
 
         // Получаем соединение, создаем стейтмент и выполняем запрос
@@ -67,11 +79,7 @@ public class App {
         }
         BaseRepository.dataSource = dataSource;
 
-//        # У строки в переменной следующий формат: {driver}:{provider}://{host}:{port}/{db}?password={password}&user={user}
-//        export JDBC_DATABASE_URL=jdbc:postgresql://db:5432/postgres?password=password&user=postgres
-//        postgres://pageanalyzer_6zju_user:1a0KvVU9M2JEB2Jtxd3VvJmSsYrZMctN@dpg-cl3oko1novjs73bkvekg-a/pageanalyzer_6zju
-//        postgres://pageanalyzer_6zju_user:1a0KvVU9M2JEB2Jtxd3VvJmSsYrZMctN@dpg-cl3oko1novjs73bkvekg-a.oregon-postgres.render.com/pageanalyzer_6zju
-
+        JavalinJte.init(createTemplateEngine());
 
         var app = Javalin.create(config -> {
             config.plugins.enableDevLogging();
@@ -85,6 +93,7 @@ public class App {
     }
 
     private static void HelloWord(Context ctx) {
-        ctx.result("Hello World");
+//        ctx.result("Hello World");
+        ctx.render("index.jte");
     }
 }

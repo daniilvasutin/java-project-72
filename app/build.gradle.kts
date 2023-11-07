@@ -18,10 +18,15 @@ repositories {
 }
 
 dependencies {
-    implementation("io.javalin:javalin:5.6.1")
+
     implementation("org.slf4j:slf4j-simple:2.0.5")
     implementation("org.projectlombok:lombok:1.18.26")
     implementation("org.projectlombok:lombok:1.18.26")
+
+    implementation("io.javalin:javalin:5.6.1")
+    implementation("io.javalin:javalin-bundle:5.6.2")
+    implementation("io.javalin:javalin-rendering:5.6.2")
+    implementation("gg.jte:jte:3.1.4")
 
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("com.zaxxer:HikariCP:5.1.0")
