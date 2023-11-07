@@ -55,7 +55,7 @@ public class App {
         //создаем запрос рендеря файл schema.sql
         String path = App.class.getClassLoader().toString();
         System.out.println(path);
-        var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
+        var inputStream = App.class.getClassLoader().getResourceAsStream("main/schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
 //        var file = new File(url.getFile());
