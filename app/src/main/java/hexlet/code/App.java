@@ -39,6 +39,7 @@ public class App {
 
     public static Javalin getApp() throws IOException, SQLException {
 
+        System.out.println("GET APP START!!!");
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
 
@@ -52,6 +53,8 @@ public class App {
         var dataSource = new HikariDataSource(configHikari);
         // Получаем путь до файла в src/main/resources
         //создаем запрос рендеря файл schema.sql
+        String path = App.class.getClassLoader().toString();
+        System.out.println(path);
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
