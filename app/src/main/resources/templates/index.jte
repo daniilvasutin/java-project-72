@@ -4,6 +4,7 @@ content = @`
         <div class="container-fluid bg-dark p-5">
             <div class="col-md-10 col-lg-8 mx-auto text-white">
                 <label for="exampleInputEmail1" class="display-3 mb-0"><p>Анализатор страниц</p></label>
+
                 <form action="/urls" method="post" class="rss-form text-body">
                     <div class="row">
                         <div class="col">
@@ -18,6 +19,7 @@ content = @`
                         </div>
                     </div>
                 </form>
+
                 <p class="mt-2 mb-0 text-white">Пример: https://www.example.com</p>
             </div>
         </div>

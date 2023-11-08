@@ -1,8 +1,7 @@
 @import gg.jte.Content
-<%--@import exercise.dto.BasePage--%>
-<%--@import exercise.util.NamedRoutes;--%>
+@import hexlet.code.dto.BasePage
 @param Content content
-<%--@param BasePage page = null--%>
+@param BasePage page = null
 
 <!doctype html>
 <html lang="en">
@@ -19,6 +18,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column min-vh-100">
+
 <%--НАВИГАЦИЯ ВВЕРХУ--%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -38,18 +38,11 @@
     </div>
 </nav>
 
-
-<%--Флеш сообщение--%>
-<%--@if(page != null && page.getFlash() != null)--%>
-<%--    <div class="alert alert-${page.getFlashType()}" role="alert">--%>
-<%--        ${page.getFlash()}--%>
-<%--    </div>--%>
-<%--@endif--%>
-
-<%--ЦЕНТР--%>
-<%--<div class="mx-auto p-4 py-md-5">--%>
-<%--    ${content}--%>
-<%--</div>--%>
+@if(page != null && page.getFlash() != null)
+    <div class="alert alert-${page.getFlashType()}" role="alert">
+        ${page.getFlash()}
+    </div>
+@endif
 
 <div>
     ${content}

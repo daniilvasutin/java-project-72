@@ -3,6 +3,7 @@ plugins {
     application
 //    checkstyle
     jacoco
+    id("io.freefair.lombok") version "8.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -20,7 +21,6 @@ repositories {
 dependencies {
 
     implementation("org.slf4j:slf4j-simple:2.0.5")
-    implementation("org.projectlombok:lombok:1.18.26")
     implementation("org.projectlombok:lombok:1.18.26")
 
     implementation("io.javalin:javalin:5.6.1")

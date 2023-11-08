@@ -2,10 +2,12 @@ package hexlet.code;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import hexlet.code.controller.IndexController;
+import hexlet.code.controller.UrlController;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import lombok.extern.slf4j.Slf4j;
-import repository.BaseRepository;
+import hexlet.code.repository.BaseRepository;
 
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 import io.javalin.rendering.template.JavalinJte;
+import hexlet.code.util.NamedRoutes;
 
 @Slf4j
 public class App {
@@ -88,12 +91,13 @@ public class App {
             ctx.contentType("text/html; charset=utf-8");
         });
 
-        app.get("/", App::HelloWord);
+        app.get(NamedRoutes.indexPath(), IndexController::index);
+        app.post(NamedRoutes.checkUrlPath(), UrlController::check);
+        app.get(NamedRoutes.urlsPath(), UrlController::showAllUrls);
+        app.get(NamedRoutes.selectUrlPath("{id}"), UrlController::showSelectUrl);
+
         return app;
     }
 
-    private static void HelloWord(Context ctx) {
-//        ctx.result("Hello World");
-        ctx.render("index.jte");
-    }
+
 }
