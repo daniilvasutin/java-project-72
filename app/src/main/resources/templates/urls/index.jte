@@ -27,8 +27,13 @@
                 <tr>
                     <th scope="row">${url.getId()}</th>
                     <td><a href="${NamedRoutes.selectUrlPath(url.getId())}">${url.getName()}</a></td>
-                    <td>...</td>
-                    <td>...</td>
+                    @if(url.getUrlCheck() != null)
+                        <td>${url.getUrlCheck().get(url.getUrlCheck().size()-1).getCreatedAtAsString()}</td>
+                        <td>${url.getUrlCheck().get(url.getUrlCheck().size()-1).getStatusCode().toString()}</td>
+                    @else
+                        <td scope="col"></td>
+                        <td scope="col"></td>
+                    @endif
                 </tr>
             @endfor
         </tbody>

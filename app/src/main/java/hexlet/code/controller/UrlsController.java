@@ -45,7 +45,8 @@ public class UrlsController {
 
     public static void showAllUrls(Context ctx) throws SQLException {
         var urls = UrlsRepository.getEntities();
-        UrlsPage page = new UrlsPage(urls);
+        var lastChecks = UrlCheckRepository.getListOfLastChecks();
+        UrlsPage page = new UrlsPage(urls, lastChecks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/index.jte", Collections.singletonMap("page", page));
@@ -56,8 +57,9 @@ public class UrlsController {
         var url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
 
         var checkedUrls = UrlCheckRepository.getAllChecksById(url.getId());
+        url.setUrlCheck(checkedUrls);
 
-        var page = new UrlPage(url, checkedUrls);
+        var page = new UrlPage(url);
         ctx.render("urls/show.jte", Collections.singletonMap("page", page));
     }
 }

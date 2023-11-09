@@ -7,8 +7,7 @@ import hexlet.code.model.UrlCheck;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UrlCheckRepository extends BaseRepository {
 
@@ -56,5 +55,39 @@ public class UrlCheckRepository extends BaseRepository {
             }
             return result;
         }
+    }
+
+    public static Optional<UrlCheck> getLastCheckById(Long id) throws SQLException {
+        String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC LIMIT 1";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)){
+            stmt.setLong(1, id);
+            var resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                Long PKid = resultSet.getLong("id");
+                Long urlId = resultSet.getLong("url_id");
+                Integer statusCode = resultSet.getInt("status_code");
+                String h1 = resultSet.getString("h1");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                UrlCheck newUrlCheck = new UrlCheck(statusCode, h1, title, description, createdAt, urlId);
+                newUrlCheck.setId(PKid);
+                return Optional.of(newUrlCheck);
+            }
+            return Optional.empty();
+        }
+    }
+
+    public static Map<Long, UrlCheck> getListOfLastChecks() throws SQLException {
+        var urls = UrlsRepository.getEntities();
+        Map<Long, UrlCheck> lastChecks = new HashMap<>();
+        for (var url : urls) {
+            var id = url.getId();
+            UrlCheck lastCheck = UrlCheckRepository.getLastCheckById(id).orElse(null);
+            lastChecks.put(id, lastCheck);
+        }
+        return lastChecks;
     }
 }

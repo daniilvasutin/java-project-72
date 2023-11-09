@@ -36,15 +36,15 @@ content = @`
             </tr>
             </thead>
 <%--            @if(page.getUrl().getUrlChecks() == null)--%>
-            @if(page.getUrlCheck() != null)
-                @for(var urlCheck : page.getUrlCheck())
+            @if(page.getUrl().getUrlCheck() != null)
+                @for(var urlCheck : page.getUrl().getUrlCheck())
                     <tr>
                         <th scope="row">${urlCheck.getId()}</th>
                         <td>${urlCheck.getStatusCode()}</td>
                         <td>${urlCheck.getTitle()}</td>
                         <td>${urlCheck.getH1()}</td>
                         <td>${urlCheck.getDescription()}</td>
-                        <td>${urlCheck.getCreatedAt().toString()}</td>
+                        <td>${urlCheck.getCreatedAtAsString()}</td>
                     </tr>
                 @endfor
             @endif

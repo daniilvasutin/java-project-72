@@ -18,6 +18,8 @@ public final class Url {
     private String name;
     private Timestamp createdAt;
 
+    private List<UrlCheck> urlCheck;
+
     public Url(String name, Timestamp createdAt){
         this.name = name;
         this.createdAt = createdAt;

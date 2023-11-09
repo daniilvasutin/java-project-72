@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @AllArgsConstructor
 @Getter
@@ -16,7 +17,7 @@ public class UrlCheck {
     private String h1;
     private String title;
     private String description;
-    private java.sql.Timestamp createdAt;
+    private Timestamp createdAt;
 
     public UrlCheck(Integer statusCode, String h1, String title, String description, Timestamp createdAt, Long urlId) {
         this.statusCode = statusCode;
@@ -25,5 +26,11 @@ public class UrlCheck {
         this.description = description;
         this.createdAt = createdAt;
         this.urlId = urlId;
+    }
+
+    public String getCreatedAtAsString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String createdAtFormatted = sdf.format(createdAt);
+        return createdAtFormatted;
     }
 }
