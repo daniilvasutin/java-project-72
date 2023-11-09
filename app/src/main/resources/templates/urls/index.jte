@@ -27,7 +27,7 @@
                 <tr>
                     <th scope="row">${url.getId()}</th>
                     <td><a href="${NamedRoutes.selectUrlPath(url.getId())}">${url.getName()}</a></td>
-                    <td>${url.getCreatedAtAsString()}</td>
+                    <td>...</td>
                     <td>...</td>
                 </tr>
             @endfor

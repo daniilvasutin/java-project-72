@@ -28,6 +28,8 @@ dependencies {
     implementation("io.javalin:javalin-rendering:5.6.2")
     implementation("gg.jte:jte:3.1.4")
 
+    implementation ("org.jsoup:jsoup:1.16.2")
+
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.h2database:h2:2.2.220")

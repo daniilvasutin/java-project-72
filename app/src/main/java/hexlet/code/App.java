@@ -95,6 +95,8 @@ public class App {
         app.post(NamedRoutes.checkUrlPath(), UrlController::check);
         app.get(NamedRoutes.urlsPath(), UrlController::showAllUrls);
         app.get(NamedRoutes.selectUrlPath("{id}"), UrlController::showSelectUrl);
+        app.post(NamedRoutes.makeCheckUrlPath("{id}"), UrlController::makeCheckUrl);
+//        app.post(NamedRoutes.ckeckSelectedUrlPath(), UrlController::ckeckSelectedUrl);
 
         return app;
     }

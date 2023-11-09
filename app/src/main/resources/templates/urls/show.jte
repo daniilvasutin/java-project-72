@@ -35,14 +35,27 @@ content = @`
                 <th scope="col">Дата проверки</th>
             </tr>
             </thead>
-            <tr>
-                <th scope="row">...</th>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-                <td>...</td>
-            </tr>
+            @if(page.getUrl().getUrlChecks() == null)
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            @else
+                @for(var urlCheck : page.getUrl().getUrlChecks())
+                    <tr>
+                        <th scope="col">${urlCheck.getId()}</th>
+                        <th scope="col">${urlCheck.getStatusCode()}</th>
+                        <th scope="col">${urlCheck.getTitle()}</th>
+                        <th scope="col">${urlCheck.getH1()}</th>
+                        <th scope="col">${urlCheck.getDescription()}</th>
+                        <th scope="col">${urlCheck.getCreatedAt().toString()}</th>
+                    </tr>
+                @endfor
+            @endif
         </table>
     </div>
 
