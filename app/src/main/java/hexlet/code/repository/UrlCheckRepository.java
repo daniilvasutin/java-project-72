@@ -6,6 +6,7 @@ import hexlet.code.model.UrlCheck;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +34,25 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-    public static List<Url> getEntities() throws SQLException {
-        String sql = "SELECT * FROM urls";
+    public static List<UrlCheck> getAllChecksById(Long id) throws SQLException {
+        String sql = "SELECT * FROM url_checks WHERE url_id = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)){
+            stmt.setLong(1, id);
             var resultSet = stmt.executeQuery();
-            var result = new ArrayList<Url>();
+            var result = new ArrayList<UrlCheck>();
             while (resultSet.next()) {
-                var id = resultSet.getLong("id");
-                var name = resultSet.getString("name");
-                var createAt = resultSet.getTimestamp("created_at");
-                Url newUrl = new Url(name, createAt);
-                newUrl.setId(id);
-                result.add(newUrl);
+                Long PKid = resultSet.getLong("id");
+                Long urlId = resultSet.getLong("url_id");
+                Integer statusCode = resultSet.getInt("status_code");
+                String h1 = resultSet.getString("h1");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("description");
+                Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                UrlCheck newUrlCheck = new UrlCheck(statusCode, h1, title, description, createdAt, urlId);
+                newUrlCheck.setId(PKid);
+                result.add(newUrlCheck);
             }
             return result;
         }

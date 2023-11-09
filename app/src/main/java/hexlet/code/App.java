@@ -3,9 +3,9 @@ package hexlet.code;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import hexlet.code.controller.IndexController;
-import hexlet.code.controller.UrlController;
+import hexlet.code.controller.UrlCheckController;
+import hexlet.code.controller.UrlsController;
 import io.javalin.Javalin;
-import io.javalin.http.Context;
 import lombok.extern.slf4j.Slf4j;
 import hexlet.code.repository.BaseRepository;
 
@@ -16,11 +16,9 @@ import io.javalin.rendering.template.JavalinJte;
 import gg.jte.resolve.ResourceCodeResolver;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
-import io.javalin.rendering.template.JavalinJte;
+
 import hexlet.code.util.NamedRoutes;
 
 @Slf4j
@@ -92,10 +90,10 @@ public class App {
         });
 
         app.get(NamedRoutes.indexPath(), IndexController::index);
-        app.post(NamedRoutes.checkUrlPath(), UrlController::check);
-        app.get(NamedRoutes.urlsPath(), UrlController::showAllUrls);
-        app.get(NamedRoutes.selectUrlPath("{id}"), UrlController::showSelectUrl);
-        app.post(NamedRoutes.makeCheckUrlPath("{id}"), UrlController::makeCheckUrl);
+        app.post(NamedRoutes.checkUrlPath(), UrlsController::check);
+        app.get(NamedRoutes.urlsPath(), UrlsController::showAllUrls);
+        app.get(NamedRoutes.selectUrlPath("{id}"), UrlsController::showSelectUrl);
+        app.post(NamedRoutes.makeCheckUrlPath("{id}"), UrlCheckController::makeCheckUrl);
 //        app.post(NamedRoutes.ckeckSelectedUrlPath(), UrlController::ckeckSelectedUrl);
 
         return app;
