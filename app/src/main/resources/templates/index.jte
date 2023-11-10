@@ -1,4 +1,8 @@
+@import hexlet.code.dto.BasePage
+@param BasePage page
+
 @template.layout.page(
+page = page,
 content = @`
     <main class="flex-grow-1">
         <div class="container-fluid bg-dark p-5">
@@ -24,5 +28,5 @@ content = @`
             </div>
         </div>
     </main>
-`
+`,
 )

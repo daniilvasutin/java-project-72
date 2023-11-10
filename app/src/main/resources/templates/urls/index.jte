@@ -6,10 +6,6 @@
     page = page,
     content = @`
 
-
-<%--        <div class="mb-3">--%>
-<%--            <a href="${NamedRoutes.buildProductPath()}">Добавить новый товар</a>--%>
-<%--        </div>--%>
 <div class="container-lg mt-5">
     <h1>Все Сайты</h1>
     <table class="table table-bordered table-hover mt-3">
@@ -21,15 +17,14 @@
                 <th scope="col">Код Ответа</th>
             </tr>
         </thead>
-        <%--${NamedRoutes.productPath(product.getId())} в href--%>
         <tbody>
             @for(var url : page.getUrls())
                 <tr>
                     <th scope="row">${url.getId()}</th>
                     <td><a href="${NamedRoutes.selectUrlPath(url.getId())}">${url.getName()}</a></td>
-                    @if(url.getUrlCheck() != null)
-                        <td>${url.getUrlCheck().get(url.getUrlCheck().size()-1).getCreatedAtAsString()}</td>
-                        <td>${url.getUrlCheck().get(url.getUrlCheck().size()-1).getStatusCode().toString()}</td>
+                    @if(page.getLastChecks() != null && page.getLastChecks().get(url.getId()) != null)
+                        <td>${page.getLastChecks().get(url.getId()).getStatusCode()}</td>
+                        <td>${page.getLastChecks().get(url.getId()).getCreatedAtAsString()}</td>
                     @else
                         <td scope="col"></td>
                         <td scope="col"></td>

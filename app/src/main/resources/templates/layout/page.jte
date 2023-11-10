@@ -30,20 +30,18 @@
                     <a class="nav-link" href="/">Главная</a>
                 </li>
                 <li class="nav-item">
-    <%--                <a class="nav-link" href="${NamedRoutes.productsPath()}">Products</a>--%>
                     <a class="nav-link" href="/urls">Сайты</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
 @if(page != null && page.getFlash() != null)
-    <div class="alert alert-${page.getFlashType()}" role="alert">
+    <div class="rounded-0 m-0 alert alert-dismissible fade show alert-${page.getFlashType()}" role="alert">
         ${page.getFlash()}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
-
 <div>
     ${content}
 </div>

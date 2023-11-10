@@ -90,9 +90,9 @@ public class App {
         });
 
         app.get(NamedRoutes.indexPath(), IndexController::index);
-        app.post(NamedRoutes.checkUrlPath(), UrlsController::check);
+        app.post(NamedRoutes.checkUrlPath(), UrlsController::addSite);
         app.get(NamedRoutes.urlsPath(), UrlsController::showAllUrls);
-        app.get(NamedRoutes.selectUrlPath("{id}"), UrlsController::showSelectUrl);
+        app.get(NamedRoutes.selectUrlPath("{id}"), UrlsController::showSelectedUrl);
         app.post(NamedRoutes.makeCheckUrlPath("{id}"), UrlCheckController::makeCheckUrl);
 //        app.post(NamedRoutes.ckeckSelectedUrlPath(), UrlController::ckeckSelectedUrl);
 

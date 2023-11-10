@@ -35,9 +35,8 @@ public class UrlCheckController {
         UrlCheckRepository.save(urlCheck);
 
         var checkedUrls = UrlCheckRepository.getAllChecksById(url.getId());
-        url.setUrlCheck(checkedUrls);
 
-        UrlPage page = new UrlPage(url);
+        UrlPage page = new UrlPage(url, checkedUrls);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/show.jte", Collections.singletonMap("page", page));

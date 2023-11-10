@@ -59,4 +59,17 @@ public class UrlsRepository extends BaseRepository {
             return Optional.empty();
         }
     }
+
+    public static boolean doesUrlExist(String normalizedUrl) throws SQLException {
+        String sql = "SELECT * FROM urls WHERE name = ?";
+        try (var conn = dataSource.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, normalizedUrl);
+            var resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

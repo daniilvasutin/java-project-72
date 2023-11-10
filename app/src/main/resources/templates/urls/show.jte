@@ -36,8 +36,8 @@ content = @`
             </tr>
             </thead>
 <%--            @if(page.getUrl().getUrlChecks() == null)--%>
-            @if(page.getUrl().getUrlCheck() != null)
-                @for(var urlCheck : page.getUrl().getUrlCheck())
+            @if(page.getUrlCheck() != null)
+                @for(var urlCheck : page.getUrlCheck())
                     <tr>
                         <th scope="row">${urlCheck.getId()}</th>
                         <td>${urlCheck.getStatusCode()}</td>
