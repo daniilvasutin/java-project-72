@@ -64,6 +64,5 @@ tasks.jacocoTestReport {
 }
 
 jacoco {
-//    reportsDirectory.set(layout.buildDirectory.dir("jacocoHtml"))
     toolVersion = "0.8.9"
 }
