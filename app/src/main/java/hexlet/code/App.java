@@ -54,7 +54,7 @@ public class App {
 
     public static Javalin getApp() throws IOException, SQLException {
 
-        System.out.println("GET APP START!!!");
+//        System.out.println("GET APP START!!!");
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
 
@@ -71,7 +71,7 @@ public class App {
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
-        System.out.println("!!! SQL !!! \n" + sql + "!!! END SQL !!! \n");
+//        System.out.println("!!! SQL !!! \n" + sql + "!!! END SQL !!! \n");
 
         // Получаем соединение, создаем стейтмент и выполняем запрос
         try (var connection = dataSource.getConnection();

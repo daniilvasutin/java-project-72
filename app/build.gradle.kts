@@ -5,6 +5,7 @@ plugins {
     jacoco
     id("io.freefair.lombok") version "8.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id ("com.adarshr.test-logger") version "4.0.0"
 }
 
 application {
@@ -34,19 +35,27 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("com.h2database:h2:2.2.220")
 
-
+    testImplementation("org.mockito:mockito-core:5.2.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    implementation("com.konghq:unirest-java:3.14.5")
 }
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
 
 tasks.withType<Checkstyle>().configureEach {
     reports {
         xml.required.set(true)
-        html.required.set(true)
 
         //html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
         //html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-custom.xsl")

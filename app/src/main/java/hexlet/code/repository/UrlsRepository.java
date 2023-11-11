@@ -4,6 +4,7 @@ import hexlet.code.model.Url;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public class UrlsRepository extends BaseRepository {
         try (var conn = dataSource.getConnection();
                 var smtm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             smtm.setString(1, url.getName());
-            smtm.setTimestamp(2, url.getCreatedAt());
+            smtm.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             smtm.executeUpdate();
             var genKeys = smtm.getGeneratedKeys();
             if (genKeys.next()) {
@@ -35,8 +36,9 @@ public class UrlsRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var createAt = resultSet.getTimestamp("created_at");
-                Url newUrl = new Url(name, createAt);
+                Url newUrl = new Url(name);
                 newUrl.setId(id);
+                newUrl.setCreatedAt(createAt);
                 result.add(newUrl);
             }
             return result;
@@ -52,8 +54,9 @@ public class UrlsRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 var createAt = resultSet.getTimestamp("created_at");
-                Url url = new Url(name, createAt);
+                Url url = new Url(name);
                 url.setId(id);
+                url.setCreatedAt(createAt);
                 return Optional.of(url);
             }
             return Optional.empty();

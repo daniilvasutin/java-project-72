@@ -6,7 +6,10 @@ import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlsRepository;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -20,8 +23,12 @@ public class UrlCheckController {
         var url = UrlsRepository.find(id).orElseThrow(() -> new NotFoundResponse("Url not found"));
 
         //ДЕЛАЕМ ЧЕК САЙТА
-        var statusCode = Jsoup.connect(url.getName()).execute().statusCode();
-        var doc = Jsoup.connect(url.getName()).get();
+        HttpResponse<String> response = Unirest.get(url.getName()).asString();
+        Document doc = Jsoup.parse(response.getBody());
+
+//        var statusCode = Jsoup.connect(url.getName()).execute().statusCode();
+//        var doc = Jsoup.connect(url.getName()).get();
+        var statusCode = response.getStatus();
         var title = doc.title();
         var h1temp = doc.selectFirst("h1");
         var h1 = h1temp == null ? "" : h1temp.text();
@@ -31,7 +38,7 @@ public class UrlCheckController {
         Timestamp createAt = new Timestamp(utilDate.getTime());
         //КОНЕЦ ЧЕКА САЙТА
 
-        UrlCheck urlCheck = new UrlCheck(statusCode, title, h1, description, createAt, url.getId());
+        UrlCheck urlCheck = new UrlCheck(statusCode, h1, title, description, createAt, url.getId());
         UrlCheckRepository.save(urlCheck);
 
         var checkedUrls = UrlCheckRepository.getAllChecksById(url.getId());

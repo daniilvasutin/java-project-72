@@ -38,10 +38,10 @@ public class UrlsController {
             ctx.sessionAttribute("flash-type", "info");
             ctx.redirect(NamedRoutes.urlsPath());
         } else {
-            Date utilDate = new Date();
-            Timestamp createAt = new Timestamp(utilDate.getTime());
+//            Date utilDate = new Date();
+//            Timestamp createAt = new Timestamp(utilDate.getTime());
 
-            var url = new Url(normalizedUrl, createAt);
+            var url = new Url(normalizedUrl);
             UrlsRepository.save(url);
             ctx.sessionAttribute("flash", "Страница добавлена успешно");
             ctx.sessionAttribute("flash-type", "success");
