@@ -1,13 +1,12 @@
 plugins {
     id("java")
     application
-//    checkstyle
     jacoco
     id("io.freefair.lombok") version "8.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id ("com.adarshr.test-logger") version "4.0.0"
 }
-
+//    checkstyle
 application {
     mainClass.set("hexlet.code.App")
 }
@@ -44,28 +43,19 @@ dependencies {
 }
 
 tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+
 }
 tasks.test {
+    useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
     testLogging {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
         events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
-        // showStackTraces = true
-        // showCauses = true
         showStandardStreams = true
     }
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
-}
-
-jacoco {
-    toolVersion = "0.8.9"
-    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
-}
-
-tasks.withType<Checkstyle>().configureEach {
     reports {
         xml.required.set(true)
 
@@ -74,4 +64,9 @@ tasks.withType<Checkstyle>().configureEach {
         //finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
         //dependsOn(tasks.test) // tests are required to run before generating the report
     }
+}
+
+jacoco {
+    toolVersion = "0.8.9"
+    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
