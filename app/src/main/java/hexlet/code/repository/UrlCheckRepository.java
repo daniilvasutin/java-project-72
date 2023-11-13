@@ -1,16 +1,21 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.UrlCheck;
+
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class UrlCheckRepository extends BaseRepository {
 
     public static void save(UrlCheck url) throws SQLException {
-        String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var smtm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             smtm.setLong(1, url.getUrlId());
@@ -33,12 +38,12 @@ public class UrlCheckRepository extends BaseRepository {
     public static List<UrlCheck> getAllChecksById(Long id) throws SQLException {
         String sql = "SELECT * FROM url_checks WHERE url_id = ?";
         try (var conn = dataSource.getConnection();
-             var stmt = conn.prepareStatement(sql)){
+             var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
             var resultSet = stmt.executeQuery();
             var result = new ArrayList<UrlCheck>();
             while (resultSet.next()) {
-                Long PKid = resultSet.getLong("id");
+                Long idPK = resultSet.getLong("id");
                 Long urlId = resultSet.getLong("url_id");
                 Integer statusCode = resultSet.getInt("status_code");
                 String h1 = resultSet.getString("h1");
@@ -47,7 +52,7 @@ public class UrlCheckRepository extends BaseRepository {
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
 
                 UrlCheck newUrlCheck = new UrlCheck(statusCode, h1, title, description, createdAt, urlId);
-                newUrlCheck.setId(PKid);
+                newUrlCheck.setId(idPK);
                 result.add(newUrlCheck);
             }
             return result;
@@ -57,11 +62,11 @@ public class UrlCheckRepository extends BaseRepository {
     public static Optional<UrlCheck> getLastCheckById(Long id) throws SQLException {
         String sql = "SELECT * FROM url_checks WHERE url_id = ? ORDER BY created_at DESC LIMIT 1";
         try (var conn = dataSource.getConnection();
-             var stmt = conn.prepareStatement(sql)){
+             var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
             var resultSet = stmt.executeQuery();
             while (resultSet.next()) {
-                Long PKid = resultSet.getLong("id");
+                Long idPK = resultSet.getLong("id");
                 Long urlId = resultSet.getLong("url_id");
                 Integer statusCode = resultSet.getInt("status_code");
                 String h1 = resultSet.getString("h1");
@@ -70,7 +75,7 @@ public class UrlCheckRepository extends BaseRepository {
                 Timestamp createdAt = resultSet.getTimestamp("created_at");
 
                 UrlCheck newUrlCheck = new UrlCheck(statusCode, h1, title, description, createdAt, urlId);
-                newUrlCheck.setId(PKid);
+                newUrlCheck.setId(idPK);
                 return Optional.of(newUrlCheck);
             }
             return Optional.empty();

@@ -13,7 +13,7 @@ public class UrlsRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (var conn = dataSource.getConnection();
-                var smtm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var smtm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             smtm.setString(1, url.getName());
             smtm.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
             smtm.executeUpdate();
@@ -29,7 +29,7 @@ public class UrlsRepository extends BaseRepository {
     public static List<Url> getEntities() throws SQLException {
         String sql = "SELECT * FROM urls";
         try (var conn = dataSource.getConnection();
-                var stmt = conn.prepareStatement(sql)){
+             var stmt = conn.prepareStatement(sql)) {
             var resultSet = stmt.executeQuery();
             var result = new ArrayList<Url>();
             while (resultSet.next()) {
@@ -48,7 +48,7 @@ public class UrlsRepository extends BaseRepository {
     public static Optional<Url> find(Long id) throws SQLException {
         String sql = "SELECT * FROM urls WHERE id = ?";
         try (var conn = dataSource.getConnection();
-                var stmt = conn.prepareStatement(sql)) {
+             var stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
             var resultSet = stmt.executeQuery();
             if (resultSet.next()) {

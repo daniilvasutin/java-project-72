@@ -15,7 +15,8 @@ import io.javalin.rendering.template.JavalinJte;
 
 import gg.jte.resolve.ResourceCodeResolver;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -57,12 +58,12 @@ public class App {
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
 
-        if (isProduction()) {
-            var username = System.getenv("JDBC_DATABASE_USERNAME");
-            var password = System.getenv("JDBC_DATABASE_PASSWORD");
-            configHikari.setUsername(username);
-            configHikari.setPassword(password);
-        }
+//        if (isProduction()) {
+//            var username = System.getenv("JDBC_DATABASE_USERNAME");
+//            var password = System.getenv("JDBC_DATABASE_PASSWORD");
+//            configHikari.setUsername(username);
+//            configHikari.setPassword(password);
+//        }
 
         var dataSource = new HikariDataSource(configHikari);
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
@@ -70,7 +71,7 @@ public class App {
         var sql = reader.lines().collect(Collectors.joining("\n"));
 
         try (var connection = dataSource.getConnection();
-             var statement = connection.createStatement()){
+             var statement = connection.createStatement()) {
             statement.execute(sql);
         }
         BaseRepository.dataSource = dataSource;
