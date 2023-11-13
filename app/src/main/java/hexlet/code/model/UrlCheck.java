@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UrlCheck {
+public final class UrlCheck {
     private Long id;
     private Long urlId;
     private Integer statusCode;

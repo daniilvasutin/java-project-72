@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.StringJoiner;
 
-public class AppTest {
+public final class AppTest {
 
     private static Javalin app;
     private static MockWebServer mockServer;
