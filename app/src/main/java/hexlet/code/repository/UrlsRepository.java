@@ -63,7 +63,7 @@ public class UrlsRepository extends BaseRepository {
         }
     }
 
-    public static boolean doesUrlExist(String normalizedUrl) throws SQLException {
+    public static boolean urlExistOnDB(String normalizedUrl) throws SQLException {
         String sql = "SELECT * FROM urls WHERE name = ?";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {

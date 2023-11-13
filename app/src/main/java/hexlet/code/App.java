@@ -27,7 +27,7 @@ public class App {
     private static final String JDBC_URL_DEFAULT = "jdbc:h2:mem:hexlet_project;";
 
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main(String[] args) throws SQLException {
         Javalin app = getApp();
         app.start(getPort());
     }
@@ -52,9 +52,8 @@ public class App {
         return templateEngine;
     }
 
-    public static Javalin getApp() throws IOException, SQLException {
+    public static Javalin getApp() throws SQLException {
 
-//        System.out.println("GET APP START!!!");
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
 
@@ -66,14 +65,10 @@ public class App {
         }
 
         var dataSource = new HikariDataSource(configHikari);
-        // Получаем путь до файла в src/main/resources
-        //создаем запрос рендеря файл schema.sql
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
         var reader = new BufferedReader(new InputStreamReader(inputStream));
         var sql = reader.lines().collect(Collectors.joining("\n"));
-//        System.out.println("!!! SQL !!! \n" + sql + "!!! END SQL !!! \n");
 
-        // Получаем соединение, создаем стейтмент и выполняем запрос
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()){
             statement.execute(sql);
@@ -90,11 +85,10 @@ public class App {
         });
 
         app.get(NamedRoutes.indexPath(), IndexController::index);
-        app.post(NamedRoutes.checkUrlPath(), UrlsController::addSite);
         app.get(NamedRoutes.urlsPath(), UrlsController::showAllUrls);
-        app.get(NamedRoutes.selectUrlPath("{id}"), UrlsController::showSelectedUrl);
-        app.post(NamedRoutes.makeCheckUrlPath("{id}"), UrlCheckController::makeCheckUrl);
-//        app.post(NamedRoutes.ckeckSelectedUrlPath(), UrlController::ckeckSelectedUrl);
+        app.post(NamedRoutes.urlsPath(), UrlsController::addSite);
+        app.get(NamedRoutes.selectedUrlPath("{id}"), UrlsController::showSelectedUrl);
+        app.post(NamedRoutes.checkUrlPath("{id}"), UrlCheckController::checkUrl);
 
         return app;
     }

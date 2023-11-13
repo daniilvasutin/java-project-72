@@ -18,9 +18,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.StringJoiner;
 
 public class AppTest {
@@ -45,10 +42,10 @@ public class AppTest {
     @BeforeAll
     public static void beforeAll() throws IOException {
         mockServer = new MockWebServer();
+        mockServer.start();
         urlName = mockServer.url("/").toString();
         var mockResponse = new MockResponse().setBody(getContentOfHtmlFile());
         mockServer.enqueue(mockResponse);
-//        mockServer.start();
     }
 
     @BeforeEach
@@ -118,7 +115,7 @@ public class AppTest {
         var url = new Url("https://www.example.com");
         UrlsRepository.save(url);
         JavalinTest.test(app, (server, client) -> {
-            var response = client.get(NamedRoutes.selectUrlPath(url.getId()));
+            var response = client.get(NamedRoutes.selectedUrlPath(url.getId()));
             assertThat(response.code()).isEqualTo(200);
         });
     }
@@ -126,18 +123,18 @@ public class AppTest {
     @Test
     public void testUrlNotFound() {
         JavalinTest.test(app, (server, client) -> {
-            var response = client.get(NamedRoutes.selectUrlPath(Long.valueOf(754)));
+            var response = client.get(NamedRoutes.selectedUrlPath(Long.valueOf(754)));
             assertThat(response.code()).isEqualTo(404);
         });
     }
 
     @Test
-    public void testCheckUrl() throws IOException, SQLException {
+    public void testCheckUrl() throws SQLException {
         var url = new Url(urlName);
         UrlsRepository.save(url);
 
         JavalinTest.test(app, (server, client) -> {
-            var response = client.post(NamedRoutes.makeCheckUrlPath(url.getId()));
+            var response = client.post(NamedRoutes.checkUrlPath(url.getId()));
             assertThat(response.code()).isEqualTo(200);
 
             var urlCheck = UrlCheckRepository.getLastCheckById(url.getId()).get();

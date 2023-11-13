@@ -21,7 +21,7 @@
             @for(var url : page.getUrls())
                 <tr>
                     <th scope="row">${url.getId()}</th>
-                    <td><a href="${NamedRoutes.selectUrlPath(url.getId())}">${url.getName()}</a></td>
+                    <td><a href="${NamedRoutes.selectedUrlPath(url.getId())}">${url.getName()}</a></td>
                     @if(page.getLastChecks() != null && page.getLastChecks().get(url.getId()) != null)
                         <td>${page.getLastChecks().get(url.getId()).getStatusCode()}</td>
                         <td>${page.getLastChecks().get(url.getId()).getCreatedAtAsString()}</td>

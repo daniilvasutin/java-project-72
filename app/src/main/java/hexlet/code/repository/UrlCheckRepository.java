@@ -1,9 +1,6 @@
 package hexlet.code.repository;
 
-import hexlet.code.dto.BasePage;
-import hexlet.code.model.Url;
 import hexlet.code.model.UrlCheck;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -80,7 +77,7 @@ public class UrlCheckRepository extends BaseRepository {
         }
     }
 
-    public static Map<Long, UrlCheck> getListOfLastChecks() throws SQLException {
+    public static Map<Long, UrlCheck> getLastChecks() throws SQLException {
         var urls = UrlsRepository.getEntities();
         Map<Long, UrlCheck> lastChecks = new HashMap<>();
         for (var url : urls) {

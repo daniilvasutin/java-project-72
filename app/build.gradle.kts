@@ -45,21 +45,12 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-    testLogging {
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-        events = mutableSetOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED, org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
-        showStandardStreams = true
-    }
 }
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
         xml.required.set(true)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
-        //html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-        //html.stylesheet = resources.text.fromFile("config/xsl/checkstyle-custom.xsl")
-        //finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-        //dependsOn(tasks.test) // tests are required to run before generating the report
     }
 }
 

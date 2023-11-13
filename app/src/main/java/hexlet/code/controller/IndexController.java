@@ -2,8 +2,6 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.BasePage;
 import io.javalin.http.Context;
-
-import java.util.Collection;
 import java.util.Collections;
 
 public class IndexController {

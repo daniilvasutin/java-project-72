@@ -3,6 +3,7 @@ package hexlet.code.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

@@ -13,9 +13,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Collections;
-import java.util.Date;
 
 public class UrlsController {
     public static void addSite(Context ctx) throws SQLException {
@@ -33,14 +31,11 @@ public class UrlsController {
             return;
         }
 
-        if (UrlsRepository.doesUrlExist(normalizedUrl)) {
+        if (UrlsRepository.urlExistOnDB(normalizedUrl)) {
             ctx.sessionAttribute("flash", "Страница уже существует");
             ctx.sessionAttribute("flash-type", "info");
             ctx.redirect(NamedRoutes.urlsPath());
         } else {
-//            Date utilDate = new Date();
-//            Timestamp createAt = new Timestamp(utilDate.getTime());
-
             var url = new Url(normalizedUrl);
             UrlsRepository.save(url);
             ctx.sessionAttribute("flash", "Страница добавлена успешно");
@@ -51,20 +46,18 @@ public class UrlsController {
 
     private static String normalizeUrl(URL url) throws MalformedURLException {
 
-
         String protocol = url.getProtocol();
         String symbol = "://";
         String host = url.getHost();
         String portSymbol = url.getPort() == -1 ? "" : ":";
         String port = url.getPort() == -1 ? "" : String.valueOf(url.getPort());
 
-        var name = protocol + symbol + host + portSymbol + port;
-        return name;
+        return protocol + symbol + host + portSymbol + port;
     }
 
     public static void showAllUrls(Context ctx) throws SQLException {
+        var lastChecks = UrlCheckRepository.getLastChecks();
         var urls = UrlsRepository.getEntities();
-        var lastChecks = UrlCheckRepository.getListOfLastChecks();
         UrlsPage page = new UrlsPage(urls, lastChecks);
         page.setFlash(ctx.consumeSessionAttribute("flash"));
         page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
@@ -78,6 +71,8 @@ public class UrlsController {
         var checkedUrls = UrlCheckRepository.getAllChecksById(url.getId());
 
         var page = new UrlPage(url, checkedUrls);
+        page.setFlash(ctx.consumeSessionAttribute("flash"));
+        page.setFlashType(ctx.consumeSessionAttribute("flash-type"));
         ctx.render("urls/show.jte", Collections.singletonMap("page", page));
     }
 }
