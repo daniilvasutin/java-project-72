@@ -58,12 +58,12 @@ public class App {
         HikariConfig configHikari = new HikariConfig();
         configHikari.setJdbcUrl(getJdbcUrl());
 
-//        if (isProduction()) {
-//            var username = System.getenv("JDBC_DATABASE_USERNAME");
-//            var password = System.getenv("JDBC_DATABASE_PASSWORD");
-//            configHikari.setUsername(username);
-//            configHikari.setPassword(password);
-//        }
+        if (isProduction()) {
+            var username = System.getenv("JDBC_DATABASE_USERNAME");
+            var password = System.getenv("JDBC_DATABASE_PASSWORD");
+            configHikari.setUsername(username);
+            configHikari.setPassword(password);
+        }
 
         var dataSource = new HikariDataSource(configHikari);
         var inputStream = App.class.getClassLoader().getResourceAsStream("schema.sql");
