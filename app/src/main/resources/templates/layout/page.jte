@@ -19,7 +19,6 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-<%--НАВИГАЦИЯ ВВЕРХУ--%>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">

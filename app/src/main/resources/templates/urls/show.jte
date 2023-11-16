@@ -36,7 +36,6 @@
                     <th scope="col">Дата проверки</th>
                 </tr>
                 </thead>
-    <%--            @if(page.getUrl().getUrlChecks() == null)--%>
                 @if(page.getUrlCheck() != null)
                     @for(var urlCheck : page.getUrlCheck())
                         <tr>
@@ -49,35 +48,7 @@
                         </tr>
                     @endfor
                 @endif
-
-
-    <%--            @else--%>
-    <%--                @for(var urlCheck : page.getUrlCheck())--%>
-    <%--                    <tr>--%>
-    <%--                        <th scope="col">${urlCheck.getId()}</th>--%>
-    <%--                        <th scope="col">${urlCheck.getStatusCode()}</th>--%>
-    <%--                        <th scope="col">${urlCheck.getTitle()}</th>--%>
-    <%--                        <th scope="col">${urlCheck.getH1()}</th>--%>
-    <%--                        <th scope="col">${urlCheck.getDescription()}</th>--%>
-    <%--                        <th scope="col">${urlCheck.getCreatedAt().toString()}</th>--%>
-    <%--                    </tr>--%>
-    <%--                @endfor--%>
-    <%--            @endif--%>
             </table>
         </div>
-
-
-    <%--        --%><%--${NamedRoutes.productPath(product.getId())} в href--%>
-    <%--        <tbody>--%>
-    <%--        @for(var url : page.getUrls())--%>
-    <%--            <tr>--%>
-    <%--                <th scope="row">${url.getId()}</th>--%>
-    <%--                <td><a href="/">${url.getName()}</a></td>--%>
-    <%--                <td>${url.getCreatedAtAsString()}</td>--%>
-    <%--                <td>...</td>--%>
-    <%--            </tr>--%>
-    <%--        @endfor--%>
-    <%--        </tbody>--%>
-
     `
 )

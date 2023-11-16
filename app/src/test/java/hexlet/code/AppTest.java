@@ -12,6 +12,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.BufferedReader;
@@ -25,6 +26,7 @@ public final class AppTest {
     private static Javalin app;
     private static MockWebServer mockServer;
     private static String urlName;
+    private static String uncorrectUrlName = "qwerty";
     private static final String HTML_PATH = "src/test/resources/index.html";
 
     public static String getContentOfHtmlFile() throws IOException {
@@ -145,6 +147,18 @@ public final class AppTest {
             assertThat(title).isEqualTo("Hexlet Javalin Example title");
             assertThat(h1).isEqualTo("This is H1");
             assertThat(description).isEqualTo("Example description");
+        });
+    }
+
+    @Test
+    public void testCheckUrlWithUnccorrectUrl() throws SQLException {
+        var url = new Url(uncorrectUrlName);
+        UrlsRepository.save(url);
+
+        JavalinTest.test(app, (server, client) -> {
+            var response = client.post(NamedRoutes.checkUrlPath(url.getId()));
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(UrlCheckRepository.getAllChecksById(url.getId()).isEmpty());
         });
     }
 
